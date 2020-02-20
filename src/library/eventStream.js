@@ -17,6 +17,8 @@ import { parseJson } from './util';
  * @property {MessageAttribute<'trigger' | 'pass' | 'fail'>} status
  */
 
+// CR: Mickey: Motivation to have isString thru getAttrType here and not in util.js?
+
 /**
  * Determine if the given value is a string
  * @param {*} val

@@ -7,6 +7,7 @@ import { handler as sDb } from './handlers/setupDatabase';
  * This is the fetch request handler
  * @param {object} AWS is the AWS sdk instance that needs to be passed from the handler
  * @param { throttleLmts: object, safeThrottleLimit: int, reserveCapForDirect: int, retryCntForCapacity: int } are the throttle limits
+ * // CR: Mickey: I think safeThrottleLimit and reserveCapForDirect are nums and not ints
  * @param {string} r is the region of AWS that this service is running in
  * @param {string} s service is the name of the service
  * @param {string} a account is AWS the account number

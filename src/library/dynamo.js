@@ -38,7 +38,7 @@ export const fetchRecordsByQuery = async (AWS, queryObject,
     if (!itemExists(qResult, 'Items') || qResult.Items.length < 1) {
       return [];
     }
-    // Convert DynamoDb stlye objects to simple Javascript objects
+    // Convert DynamoDb style objects to simple Javascript objects
     return qResult.Items.map(item => AWS.DynamoDB.Converter.unmarshall(item));
   } catch (err) {
     throw err;
@@ -83,7 +83,7 @@ export const batchPutIntoDynamoDb = async (AWS, recs, tName,
   // object structure for each record insertion
   const preparedRecords = recs.map(record => ({
     PutRequest:
-      { Item: AWS.DynamoDB.Converter.marshall(record) },
+      { Item: AWS.DynamoDB.Converter.marshall(record) }, // CR: Mickey: should we include { converEmptyValues: true } options here for empty string protection?
   }));
 
   const bulkRequests = [];
@@ -121,10 +121,12 @@ export const batchPutIntoDynamoDb = async (AWS, recs, tName,
     if (unprocessedRecords.length > 0) {
       await sleep(backoff);
       return batchPutIntoDynamoDb(AWS, unprocessedRecords, tName,
-        backoff + 1000);
+        backoff + 1000); // CR: Mickey: Why are we increasing the sleep time on each iteration?
     }
     return true;
   } catch (err) {
     throw err;
   }
 };
+
+// CR: Mickey: add singlePutIntoDynamoDb method?
